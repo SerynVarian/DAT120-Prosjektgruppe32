@@ -4,7 +4,7 @@
 #
 
 #Import
-import Funksjoner as fu
+import funksjoner as fu
 
 
 
