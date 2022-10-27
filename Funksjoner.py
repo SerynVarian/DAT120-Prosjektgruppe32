@@ -41,7 +41,7 @@ def nyAvtale():
 
 
 #Funksjon for aa skrive ut en liste av avtaler med posisjonen i lista og tittelen til avtalen
-def avtaleListe(liste):
+def lesAvtaleListe(liste):
     print("Avtaler:")
     for i in range(0,len(liste)):
         print( f"   Index [{i}], Tittel: ", liste[i].tittel)
