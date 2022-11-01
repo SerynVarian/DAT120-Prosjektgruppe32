@@ -4,21 +4,34 @@
 #
 
 #Import
+
 import funksjoner as fu
+from time import sleep
 
 
 
 #Program
-if __name__ == "__main__":
     #Progam kode start
 
-    #Avtale liste variabel
-    avtaler = []
+avtaler = []
+    #aktivAvtaleListe = []
+print('Avtale Bok Meny:')
+fu.menyValg()
+while True:
+    valg = str(input("Input: "))
+    if valg == "1":
+        avtaler = fu.leseAvtalerFraFil()
+    elif valg == "2":
+        fu.lagreAvtalerTilFil(avtaler)
+    elif valg == "3":
+        avtaler.append(fu.nyAvtale())
+    elif valg == "4":
+        fu.lesAvtaleListe(avtaler)
+    elif valg == "5":
+        exit()
+    else:
+        print("Feil input")
+    input()
+    fu.menyValg()
     
-    #Legge inn ny avtale
-    avtaler.append(fu.nyAvtale())
-
-    #lese av listen
-    fu.lesAvtaleListe(avtaler)
     #Program kode slutt
-    pass

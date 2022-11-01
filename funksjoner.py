@@ -1,10 +1,11 @@
-# Funksjoner.py
+# funksjoner.py
 # DAT120 Prosjekt Del 1
 # Prosjektgruppe 32
 #
 
 #Import
 from datetime import datetime as Dati
+import keyboard
 
 
 #Avtale klasse
@@ -26,13 +27,13 @@ class avtale:
 def nyAvtale():
     try:
         print("Ny avtale:")
-        tempTittel = input("    Mote Tittel: ")
+        tempTittel = input("  Mote Tittel: ")
         tempSted = input("  Mote Sted: ")
-        tempTid = input("   Mote StartTid (Format: YYYY-MM-DD-HH-MM): ")
+        tempTid = input("  Mote StartTid (Format: YYYY-MM-DD HH:MM:SS): ")
         tempVarighet = int(input("  Mote Varighet: "))
 
         #Konvertere Str input til datetime format
-        tempTid = Dati.strptime(tempTid, "%Y-%m-%d-%H-%M")
+        tempTid = Dati.strptime(tempTid,  '%Y-%m-%d %H:%M:%S')
 
         return avtale(tempTittel,tempSted,tempTid,tempVarighet)
 
@@ -45,4 +46,50 @@ def lesAvtaleListe(liste):
     print("Avtaler:")
     for i in range(0,len(liste)):
         print( f"   Index [{i}], Tittel: ", liste[i].tittel)
+
+#Funksjon for aa skrive avtale liste til fil
+def lagreAvtalerTilFil(liste):
+    f = open("avtaler.txt", "w")
+    for i in range(0,len(liste)):
+        f.write(f"{liste[i].tittel};{liste[i].sted};{liste[i].startTid};{liste[i].varighet}\n")
+    f.close()
+
+#Funksjon for aa lese avtale liste fra fil
+def leseAvtalerFraFil():
+    tempList = []
+    with open('avtaler.txt', 'r', encoding='UTF-8') as file:
+        while (line := file.readline().rstrip()):
+            tempLineList = line.split(";")
+            tempList.append(avtale(str(tempLineList[0]),str(tempLineList[1]),Dati.strptime(tempLineList[2], '%Y-%m-%d %H:%M:%S'),tempLineList[3]))
+    return tempList
+
+def avtalerSammeDato(liste):
+    templist = []
+    tempTid = input("Finn Moter paa datoer (Format: YYYY-MM-DD): ")
+    tempTid = Dati.strptime(tempTid,  '%Y-%m-%d')
+    
+    for i in range(0, len(liste)):
+        if liste[i].startTid.date() == tempTid.date():
+            templist.insert(i,liste[i])
+    print(templist)
+    return templist
+
+
+def avtalerSammeTittel(liste):
+    templist = list()
+    tempTittel = input("Finn Moter med samme tittel: ")
+    
+    for i in range(0, len(liste)):
+        if liste[i].tittel.lower() == tempTittel.lower():
+            templist.insert(i,liste[i])
+    print(templist)
+    return templist
+
+def menyValg():
+    print('valg:')
+    print('     Laste inn fil[1]')
+    print('     Skrive til fil[2]')
+    print('     Lage ny avtale[3]')
+    print('     Skrive ut avtalene[4]')
+    print('     Avslutte[5]')
 
