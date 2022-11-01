@@ -48,11 +48,20 @@ def lesAvtaleListe(liste):
         print( f"   Index [{i}], Tittel: ", liste[i].tittel)
 
 #Funksjon for aa skrive avtale liste til fil
-def lagreAvtalerTilFil(liste):
-    f = open("avtaler.txt", "w")
-    for i in range(0,len(liste)):
-        f.write(f"{liste[i].tittel};{liste[i].sted};{liste[i].startTid};{liste[i].varighet}\n")
-    f.close()
+def lagreAvtalerTilFil(liste, grunnliste,listelastet):
+    if listelastet == True:
+        f = open("avtaler.txt", "w")
+        for i in range(0,len(liste)):
+            f.write(f"{liste[i].tittel};{liste[i].sted};{liste[i].startTid};{liste[i].varighet}\n")
+        f.close()
+    elif listelastet == False:
+        for i in range(0, len(liste)):
+            grunnliste.append(liste[i])
+
+        f = open("avtaler.txt", "w")
+        for i in range(0,len(grunnliste)):
+            f.write(f"{grunnliste[i].tittel};{grunnliste[i].sted};{grunnliste[i].startTid};{grunnliste[i].varighet}\n")
+        f.close()
 
 #Funksjon for aa lese avtale liste fra fil
 def leseAvtalerFraFil():
@@ -63,6 +72,7 @@ def leseAvtalerFraFil():
             tempList.append(avtale(str(tempLineList[0]),str(tempLineList[1]),Dati.strptime(tempLineList[2], '%Y-%m-%d %H:%M:%S'),tempLineList[3]))
     return tempList
 
+#Funksjon for aa finne alle avtaler med samme dato
 def avtalerSammeDato(liste):
     templist = []
     tempTid = input("Finn Moter paa datoer (Format: YYYY-MM-DD): ")
@@ -74,7 +84,7 @@ def avtalerSammeDato(liste):
     print(templist)
     return templist
 
-
+#Funksjon for aa finne alle avtaler med samme tittel
 def avtalerSammeTittel(liste):
     templist = list()
     tempTittel = input("Finn Moter med samme tittel: ")
@@ -85,11 +95,46 @@ def avtalerSammeTittel(liste):
     print(templist)
     return templist
 
+#Funksjon for alle meny valgene
 def menyValg():
     print('valg:')
     print('     Laste inn fil[1]')
     print('     Skrive til fil[2]')
     print('     Lage ny avtale[3]')
     print('     Skrive ut avtalene[4]')
-    print('     Avslutte[5]')
+    print('     Slette Avtale[5]')
+    print('     Redigere Avtale[6]')
+    print('     Avslutte[7]')
 
+#Funksjon for aa slette en avtale
+def sletteAvtale(liste):
+    print('Slette Avtale')
+    lesAvtaleListe(liste)
+    indx = int(input('Skriv inn Index paa avtale som skal slettes: '))
+    del liste[indx]
+
+#Funksjon for aa redigere en avtale
+def redigereAvtale(liste):
+    print('Redigere Avtale')
+    lesAvtaleListe(liste)
+    indx = int(input('Skriv inn Index paa avtale som skal redigeres: '))
+    print(liste[indx])
+
+    print('\nRedigere Verdi:')
+    print('     tittel[1]')
+    print('     sted[2]')
+    print('     startTid[3]')
+    print('     varighet[4]')
+
+    valg = input("Input: ")
+    if valg == "1":
+        liste[indx].tittel = input('Ny tittel: ')
+    elif valg == "2":
+        liste[indx].sted = input('Ny sted: ')
+    elif valg == "3":
+        liste[indx].startTid = input('Ny startTid: ')
+    elif valg == "4":
+        liste[indx].varighet = input('Ny varighet: ')
+    else:
+        print("Feil input")
+    return liste
