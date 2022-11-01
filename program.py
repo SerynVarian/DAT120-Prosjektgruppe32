@@ -10,8 +10,8 @@ from time import sleep
 
 
 
-#Program
-    #Progam kode start
+
+#Progam kode start
 
 avtaler = fu.leseAvtalerFraFil()
 aktivAvtaler = list()
