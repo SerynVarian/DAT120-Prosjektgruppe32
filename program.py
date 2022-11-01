@@ -9,8 +9,6 @@ import funksjoner as fu
 from time import sleep
 
 
-
-
 #Progam kode start
 
 avtaler = fu.leseAvtalerFraFil()
