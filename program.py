@@ -13,25 +13,32 @@ from time import sleep
 #Program
     #Progam kode start
 
-avtaler = []
-    #aktivAvtaleListe = []
-print('Avtale Bok Meny:')
-fu.menyValg()
+avtaler = fu.leseAvtalerFraFil()
+aktivAvtaler = list()
+listLoaded = False
+
 while True:
+    print('Avtale Bok Meny:')
+    fu.menyValg()
     valg = str(input("Input: "))
     if valg == "1":
-        avtaler = fu.leseAvtalerFraFil()
+        aktivAvtaler = fu.leseAvtalerFraFil()
+        listLoaded = True
     elif valg == "2":
-        fu.lagreAvtalerTilFil(avtaler)
+        fu.lagreAvtalerTilFil(aktivAvtaler,avtaler,listLoaded)
     elif valg == "3":
-        avtaler.append(fu.nyAvtale())
+        aktivAvtaler.append(fu.nyAvtale())
     elif valg == "4":
-        fu.lesAvtaleListe(avtaler)
+        fu.lesAvtaleListe(aktivAvtaler)
     elif valg == "5":
+        fu.sletteAvtale(aktivAvtaler)
+    elif valg == "6":
+        aktivAvtaler = fu.redigereAvtale(aktivAvtaler)
+    elif valg == "7":
         exit()
     else:
         print("Feil input")
     input()
-    fu.menyValg()
+    
     
     #Program kode slutt
