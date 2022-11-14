@@ -1,19 +1,27 @@
 # program.py
-# DAT120 Prosjekt Del 1
+# DAT120 Prosjekt
 # Prosjektgruppe 32
 #
 
 #Import
 
-import funksjoner as fu
-from time import sleep
+import funksjonerDel1 as fu
+import funksjonerDel2 as fu2
 
 
 #Progam kode start
 
 avtaler = fu.leseAvtalerFraFil()
 aktivAvtaler = list()
-listLoaded = False
+avtalerLoaded = False
+
+Kategori = fu2.leseKategoriFraFil()
+aktivKategori = list()
+kategoriLoaded = False
+
+Sted = fu2.leseStedFraFil()
+aktivSted = list()
+stedLoaded = False
 
 while True:
     print('Avtale Bok Meny:')
@@ -21,9 +29,19 @@ while True:
     valg = str(input("Input: "))
     if valg == "1":
         aktivAvtaler = fu.leseAvtalerFraFil()
-        listLoaded = True
+        avtalerLoaded = True
+        
+        aktivKategori = fu2.leseKategoriFraFil()
+        kategoriLoaded = True
+        
+        aktivSted = fu2.leseStedFraFil()
+        stedLoaded = True
+
     elif valg == "2":
-        fu.lagreAvtalerTilFil(aktivAvtaler,avtaler,listLoaded)
+        fu.lagreAvtalerTilFil(aktivAvtaler,avtaler,avtalerLoaded)
+        fu2.lagreKategoriTilFil(aktivKategori,Kategori,kategoriLoaded)
+        fu2.lagreStedTilFil(aktivSted,Sted,stedLoaded)
+
     elif valg == "3":
         aktivAvtaler.append(fu.nyAvtale())
     elif valg == "4":
@@ -33,6 +51,10 @@ while True:
     elif valg == "6":
         aktivAvtaler = fu.redigereAvtale(aktivAvtaler)
     elif valg == "7":
+        aktivKategori.append(fu2.nyKategori())
+    elif valg == "8":
+        aktivSted.append(fu2.nySted())
+    elif valg == "0":
         exit()
     else:
         print("Feil input")

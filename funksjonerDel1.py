@@ -1,26 +1,32 @@
-# funksjoner.py
-# DAT120 Prosjekt Del 1
+# funksjonerDel1.py
+# DAT120 Prosjekt
 # Prosjektgruppe 32
 #
 
 #Import
 from datetime import datetime as Dati
-import keyboard
+import funksjonerDel2 as fu2
 
 
 #Avtale klasse
 class avtale:
 
     #Definere variabler til klassen som blir egenskapene til objektet
-    def __init__(self, tittel, sted, startTid, varighet) -> None:
+    def __init__(self, tittel, sted, startTid, varighet, katgo = list()) -> None:
         self.tittel = tittel
         self.sted = sted
         self.startTid = startTid
         self.varighet = varighet
+        self.katgo = katgo
 
     #Returnerer en string med alle egenskapene paa et leselig format
     def __str__(self):
         return f"Mote type: {self.tittel}, Sted: {self.sted}, startid: {self.startTid}, Varighet: {self.varighet}"
+    
+    def legg_til_kategori(self, kat):
+        self.katgo.append(kat)
+
+
 
 #Funksjon for aa lage ny avtale.
 #Ta inn input fra bruker for alle egenskapene
@@ -28,7 +34,7 @@ def nyAvtale():
     try:
         print("Ny avtale:")
         tempTittel = input("  Mote Tittel: ")
-        tempSted = input("  Mote Sted: ")
+        tempSted = fu2.nySted()
         tempTid = input("  Mote StartTid (Format: YYYY-MM-DD HH:MM:SS): ")
         tempVarighet = int(input("  Mote Varighet: "))
 
@@ -52,7 +58,7 @@ def lagreAvtalerTilFil(liste, grunnliste,listelastet):
     if listelastet == True:
         f = open("avtaler.txt", "w")
         for i in range(0,len(liste)):
-            f.write(f"{liste[i].tittel};{liste[i].sted};{liste[i].startTid};{liste[i].varighet}\n")
+            f.write(f"{liste[i].tittel};{liste[i].sted};{liste[i].startTid};{liste[i].varighet};{liste[i].katgo}\n")
         f.close()
     elif listelastet == False:
         for i in range(0, len(liste)):
@@ -60,7 +66,7 @@ def lagreAvtalerTilFil(liste, grunnliste,listelastet):
 
         f = open("avtaler.txt", "w")
         for i in range(0,len(grunnliste)):
-            f.write(f"{grunnliste[i].tittel};{grunnliste[i].sted};{grunnliste[i].startTid};{grunnliste[i].varighet}\n")
+            f.write(f"{grunnliste[i].tittel};{grunnliste[i].sted};{grunnliste[i].startTid};{grunnliste[i].varighet};{grunnliste[i].katgo}\n")
         f.close()
 
 #Funksjon for aa lese avtale liste fra fil
@@ -69,7 +75,7 @@ def leseAvtalerFraFil():
     with open('avtaler.txt', 'r', encoding='UTF-8') as file:
         while (line := file.readline().rstrip()):
             tempLineList = line.split(";")
-            tempList.append(avtale(str(tempLineList[0]),str(tempLineList[1]),Dati.strptime(tempLineList[2], '%Y-%m-%d %H:%M:%S'),tempLineList[3]))
+            tempList.append(avtale(str(tempLineList[0]),str(tempLineList[1]),Dati.strptime(tempLineList[2], '%Y-%m-%d %H:%M:%S'),tempLineList[3],tempLineList[4]))
     return tempList
 
 #Funksjon for aa finne alle avtaler med samme dato
@@ -104,7 +110,10 @@ def menyValg():
     print('     Skrive ut avtalene[4]')
     print('     Slette Avtale[5]')
     print('     Redigere Avtale[6]')
-    print('     Avslutte[7]')
+    print('     lage ny kategori[7]')
+    print('     lage nytt sted[8]')
+    print('     Redigere Avtale[9]')
+    print('     Avslutte[0]')
 
 #Funksjon for aa slette en avtale
 def sletteAvtale(liste):
